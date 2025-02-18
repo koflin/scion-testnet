@@ -7,6 +7,11 @@ Reference platform: Ubuntu 22.04 LTS or macOS Version 14
 
 Go 1.23: https://go.dev/dl/
 
+### Windows
+
+Currently SCION is not supported on Windows, hence using WSL is recommended.
+
+In cases where the SCION test network must be accessible from your LAN the mirrored mode networking must be enabled in WSL (see [here](https://learn.microsoft.com/en-us/windows/wsl/networking) for more information about mirrored mode networking).
 
 ## Set up SCION test environment
 
@@ -49,6 +54,20 @@ To later remove them again:
 ```
 for i in {2..31}; do sudo ifconfig lo0 alias 127.0.0.$i down; done
 for i in {2..31}; do sudo ifconfig lo0 -alias 127.0.0.$i; done
+```
+
+### On Linux/WSL
+
+```
+for i in {2..31}; do sudo ifconfig lo:$i 127.0.0.$i up; done
+```
+
+This will add alias IP addresses to the loopback adapter (assuming your loopback adapter is called `lo`).
+
+To later remove them again:
+
+```
+for i in {2..31}; do sudo ifconfig lo:$i 127.0.0.$i down; done
 ```
 
 
